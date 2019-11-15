@@ -46,6 +46,23 @@ def delete(id):
 	except:
 		return 'There was an issue in deleting the assignment'
 
+@app.route('/update/<int:id>',methods=['GET','POST'])
+def update(id):
+
+	assign = Todo.query.get_or_404(id)
+	if request.method == 'POST':
+		assign.content= request.form['content']
+
+		try:
+			db.session.commit()
+			return redirect('/')
+
+		except:
+			return 'there was an error in updating the assignment'	
+	else:
+		return render_template('update.html',assign=assign)	
+
+
 
 if __name__ == '__main__':
 		app.run(debug=True)	
